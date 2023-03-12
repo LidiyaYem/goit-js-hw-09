@@ -33,7 +33,7 @@ function onFormSubmit(e) {
   const step = Number(refs.step.value);
   const amount = Number(refs.amount.value);
 
-  for (let i = 1; i < amount; i += 1) {
+  for (let i = 1; i <= amount; i += 1) {
     createPromise(i, delay + step * (i-1))
     .then(({position, delay}) => {
     Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
