@@ -24,6 +24,7 @@ function createPromise(position, delay) {
     });
   };
 
+  
 function onFormSubmit(e) {
   e.preventDefault();
   const delay = Number(refs.delay.value);
