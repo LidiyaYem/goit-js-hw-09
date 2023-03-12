@@ -52,12 +52,6 @@ function onStart(e) {
         refs.minutes.textContent = `${minutes}`;
         refs.seconds.textContent = `${seconds}`;
     }, 1000);
-
-    if (refs.days.textContent === 00 && refs.hours.textContent === 00 && 
-        refs.minutes.textContent === 00 && refs.seconds.textContent === 00) {
-            clearInterval();
-        };
-
 };
 
 
