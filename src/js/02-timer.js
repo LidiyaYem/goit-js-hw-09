@@ -3,7 +3,6 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
-import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 
 const refs = {
@@ -53,6 +52,11 @@ function onStart(e) {
         refs.minutes.textContent = `${minutes}`;
         refs.seconds.textContent = `${seconds}`;
     }, 1000);
+
+    if (refs.days.textContent === 00 && refs.hours.textContent === 00 && 
+        refs.minutes.textContent === 00 && refs.seconds.textContent === 00) {
+            clearInterval();
+        };
 
 };
 
