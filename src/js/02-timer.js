@@ -43,7 +43,8 @@ flatpickr(refs.input, options);
 refs.startBtn.addEventListener('click', onStart);
 
 function onStart(e) {
-    setInterval( () => {
+      
+        const timer = setInterval( () => {
         currentDate = Date.now();
         const deltaTime = selectedDate.getTime() - currentDate;
         const { days, hours, minutes, seconds } = convertMs(deltaTime);
@@ -51,6 +52,10 @@ function onStart(e) {
         refs.hours.textContent = `${hours}`;
         refs.minutes.textContent = `${minutes}`;
         refs.seconds.textContent = `${seconds}`;
+
+        if ((selectedDate.getTime() - currentDate) < 1000 ) {
+            clearInterval(timer);
+        }
     }, 1000);
 };
 
