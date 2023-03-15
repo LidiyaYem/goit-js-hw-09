@@ -24,14 +24,13 @@ const options = {
     time_24hr: true,
     defaultDate: new Date(),
     minuteIncrement: 1,
-    onClose(selectedDates) {
-        currentDate = new Date();
-        if (selectedDates[0] - currentDate >= 0) {
+    onClose([selectedDates]) {
+        currentDate = Date.now();
+        if (selectedDates - currentDate >= 0) {
             refs.startBtn.disabled = false;
-            selectedDate = selectedDates[0];
+            selectedDate = selectedDates;
         }
         else {
-            // window.alert("Please choose a date in the future");
             Notify.failure('Please choose a date in the future');
             refs.startBtn.disabled = true;
         }
@@ -47,18 +46,24 @@ function onStart(e) {
         const timer = setInterval( () => {
         currentDate = Date.now();
         const deltaTime = selectedDate.getTime() - currentDate;
-        const { days, hours, minutes, seconds } = convertMs(deltaTime);
-        refs.days.textContent = `${days}`;
-        refs.hours.textContent = `${hours}`;
-        refs.minutes.textContent = `${minutes}`;
-        refs.seconds.textContent = `${seconds}`;
+        const time = convertMs(deltaTime);
 
         if ((selectedDate.getTime() - currentDate) < 1000 ) {
             clearInterval(timer);
         }
+
+        return updateTimer(time);
     }, 1000);
 };
 
+function updateTimer({days, hours, minutes, seconds}) {
+        refs.days.textContent = addLeadingZero(`${days}`);
+        refs.hours.textContent = addLeadingZero(`${hours}`);
+        refs.minutes.textContent = addLeadingZero(`${minutes}`);
+        refs.seconds.textContent = addLeadingZero(`${seconds}`);
+
+        return {days, hours, minutes, seconds}
+};
 
 function addLeadingZero(value) {
     return String(value).padStart(2, '0');
@@ -70,10 +75,10 @@ function convertMs(ms) {
     const hour = minute * 60;
     const day = hour * 24;
   
-    const days = addLeadingZero(Math.floor(ms / day));
-    const hours = addLeadingZero(Math.floor((ms % day) / hour));
-    const minutes = addLeadingZero(Math.floor(((ms % day) % hour) / minute));
-    const seconds = addLeadingZero(Math.floor((((ms % day) % hour) % minute) / second));
+    const days = Math.floor(ms / day);
+    const hours = Math.floor((ms % day) / hour);
+    const minutes = Math.floor(((ms % day) % hour) / minute);
+    const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   
     return { days, hours, minutes, seconds };
   };
